@@ -1,0 +1,9 @@
+src/
+examples/
+tests/
+.github/
+.git/
+.gitignore
+tsconfig.json
+tsconfig.esm.json
+*.tgz 
