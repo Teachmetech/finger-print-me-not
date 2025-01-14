@@ -1,3 +1,12 @@
+## Package Information
+[![npm version](https://img.shields.io/npm/v/fingerprint-me-not.svg)](https://www.npmjs.com/package/fingerprint-me-not)
+[![npm downloads](https://img.shields.io/npm/dm/fingerprint-me-not.svg)](https://www.npmjs.com/package/fingerprint-me-not)
+[![License](https://img.shields.io/npm/l/fingerprint-me-not.svg)](https://github.com/Teachmetech/finger-print-me-not/blob/main/LICENSE)
+
+<p align="center">
+<img src="assets/fingerprint-me-not.png" alt="FingerPrintMeNot Logo" width="200"/>
+</p>
+
 # FingerPrintMeNot
 
 A powerful Node.js HTTP client with advanced TLS fingerprinting capabilities. This library allows you to make HTTP requests while controlling your TLS fingerprint, headers, and other connection parameters.
