@@ -1,0 +1,9 @@
+
+System Information:
+------------------
+Platform: darwin
+Architecture: x64
+
+Required Package:
+----------------
+npm install fingerprint-me-not-darwin-x64

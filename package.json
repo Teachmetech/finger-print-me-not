@@ -62,12 +62,12 @@
     "tough-cookie": "^4.1.2"
   },
   "optionalDependencies": {
-    "fingerprint-me-not-win32-x64": "0.0.2",
-    "fingerprint-me-not-win32-ia32": "0.0.2",
+    "fingerprint-me-not-darwin-arm64": "0.0.2",
+    "fingerprint-me-not-darwin-x64": "0.0.3",
+    "fingerprint-me-not-linux-arm64": "0.0.2",
     "fingerprint-me-not-linux-x64": "0.0.2",
     "fingerprint-me-not-linux-x86": "0.0.2",
-    "fingerprint-me-not-linux-arm64": "0.0.2",
-    "fingerprint-me-not-darwin-x64": "0.0.2",
-    "fingerprint-me-not-darwin-arm64": "0.0.2"
+    "fingerprint-me-not-win32-ia32": "0.0.2",
+    "fingerprint-me-not-win32-x64": "0.0.2"
   }
 }
