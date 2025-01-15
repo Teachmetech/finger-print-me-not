@@ -1,0 +1,21 @@
+{
+  "name": "fingerprint-me-not-win32-ia32",
+  "version": "0.0.3",
+  "description": "win32-ia32 binaries for fingerprint-me-not",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Teachmetech/finger-print-me-not.git"
+  },
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "ia32"
+  ],
+  "files": [
+    "finger-print-me-not-32.dll"
+  ],
+  "binaryName": "finger-print-me-not-32.dll",
+  "binaryPath": "./finger-print-me-not-32.dll",
+  "license": "MIT"
+}

@@ -33,6 +33,27 @@ TLS fingerprinting is a technique used by websites to detect and block automated
 npm install fingerprint-me-not
 ```
 
+By default, only the dependencies for your current platform will be installed. If you need support for other platforms, you can install them manually. With all dependencies installed, you can use the library on any platform, however, the unpacked size of the library will be large (about 78MB). You can minimize the size of the library by only installing the dependencies for the platforms you need. Which should significantly reduce the size of the library to a few MBs (about 11MB).
+
+To install all platform dependencies at once, you can use:
+```bash
+INSTALL_ALL_PLATFORMS=true npm install fingerprint-me-not
+```
+
+Or install specific platforms manually:
+```bash
+# For Windows x64
+npm install fingerprint-me-not-win32-x64
+
+# For macOS ARM64
+npm install fingerprint-me-not-darwin-arm64
+
+# For Linux x64
+npm install fingerprint-me-not-linux-x64
+```
+
+If you're unsure which platform you're on, you can run `node scripts/check-platform.js` to check your platform which will also return the npm command to install the dependencies for your platform.
+
 ## Quick Start
 
 ### Basic Usage

@@ -1,0 +1,21 @@
+{
+  "name": "fingerprint-me-not-linux-x64",
+  "version": "0.0.3",
+  "description": "linux-x64 binaries for fingerprint-me-not",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Teachmetech/finger-print-me-not.git"
+  },
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "files": [
+    "finger-print-me-not-amd64.so"
+  ],
+  "binaryName": "finger-print-me-not-amd64.so",
+  "binaryPath": "./finger-print-me-not-amd64.so",
+  "license": "MIT"
+}

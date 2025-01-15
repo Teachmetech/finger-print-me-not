@@ -1,6 +1,6 @@
 {
   "name": "fingerprint-me-not",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A powerful Node.js HTTP client with advanced TLS fingerprinting capabilities",
   "author": "Varand Abrahamian <contact@varand.me>",
   "license": "MIT",
@@ -22,20 +22,29 @@
   "types": "dist/esm/index.d.ts",
   "type": "module",
   "files": [
-    "dist"
+    "dist/**/*",
+    "src/dependencies/*",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "run-p build:*",
     "build:common": "tsc",
     "build:esm": "tsc -p tsconfig.esm.json",
-    "build:deps": "copyfiles -u 1 \"src/dependencies/**/*\" dist && copyfiles -u 1 \"src/dependencies/**/*\" dist/esm",
+    "build:deps": "copyfiles -f \"src/dependencies/*\" dist/dependencies",
+    "postbuild": "node scripts/fix-imports.js",
     "example:basic": "tsx examples/basic_requests.ts",
     "example:session": "tsx examples/session_example.ts",
     "example:fingerprint": "tsx examples/custom_fingerprint.ts",
     "example:errors": "tsx examples/error_handling.ts",
     "example:zalando": "tsx examples/zalando_example.ts",
-    "example:upwork": "tsx examples/upwork_example.ts"
+    "example:upwork": "tsx examples/upwork_example.ts",
+    "preinstall": "node scripts/check-platform.js > .platform-info",
+    "install": "node scripts/install-platform.js",
+    "create-packages": "node scripts/create-platform-packages.js",
+    "test:platform": "tsx examples/test-platform.ts",
+    "check-platform": "node scripts/check-platform.js"
   },
   "devDependencies": {
     "@swc/core": "^1.10.7",
@@ -51,5 +60,14 @@
   "dependencies": {
     "koffi": "^2.7.1",
     "tough-cookie": "^4.1.2"
+  },
+  "optionalDependencies": {
+    "fingerprint-me-not-win32-x64": "0.0.2",
+    "fingerprint-me-not-win32-ia32": "0.0.2",
+    "fingerprint-me-not-linux-x64": "0.0.2",
+    "fingerprint-me-not-linux-x86": "0.0.2",
+    "fingerprint-me-not-linux-arm64": "0.0.2",
+    "fingerprint-me-not-darwin-x64": "0.0.2",
+    "fingerprint-me-not-darwin-arm64": "0.0.2"
   }
 }

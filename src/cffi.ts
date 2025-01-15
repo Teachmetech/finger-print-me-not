@@ -24,11 +24,23 @@ const fileExt = (() => {
     }
 })();
 
-const libraryPath = `${__dirname}/dependencies/finger-print-me-not${fileExt}`;
+const libraryPath = process.env.NODE_ENV === 'development'
+    ? `${__dirname}/dependencies/finger-print-me-not${fileExt}`
+    : `${dirname(__dirname)}/dependencies/finger-print-me-not${fileExt}`;
 
 // Debugging: Log the library path
 // console.log('Loading library from:', libraryPath);
 
 // Load the library and define the function signature
-const lib = koffi.load(libraryPath);
-export const request: RequestFunction = lib.func('request', 'str', ['str']);
+let request: RequestFunction;
+try {
+    const lib = koffi.load(libraryPath);
+    request = lib.func('request', 'str', ['str']);
+} catch (error) {
+    throw new Error(
+        `Failed to load native dependency for ${process.platform}-${process.arch}. ` +
+        `Please install the required dependency: npm install fingerprint-me-not-${process.platform}-${process.arch}`
+    );
+}
+
+export { request };

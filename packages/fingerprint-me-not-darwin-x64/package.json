@@ -1,0 +1,21 @@
+{
+  "name": "fingerprint-me-not-darwin-x64",
+  "version": "0.0.3",
+  "description": "darwin-x64 binaries for fingerprint-me-not",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Teachmetech/finger-print-me-not.git"
+  },
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "files": [
+    "finger-print-me-not-x86.dylib"
+  ],
+  "binaryName": "finger-print-me-not-x86.dylib",
+  "binaryPath": "./finger-print-me-not-x86.dylib",
+  "license": "MIT"
+}
