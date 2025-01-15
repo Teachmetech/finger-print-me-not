@@ -27,7 +27,7 @@ const fileExt = (() => {
 const libraryPath = `${__dirname}/dependencies/finger-print-me-not${fileExt}`;
 
 // Debugging: Log the library path
-console.log('Loading library from:', libraryPath);
+// console.log('Loading library from:', libraryPath);
 
 // Load the library and define the function signature
 const lib = koffi.load(libraryPath);
