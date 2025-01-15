@@ -1,6 +1,6 @@
 {
   "name": "fingerprint-me-not",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A powerful Node.js HTTP client with advanced TLS fingerprinting capabilities",
   "author": "Varand Abrahamian <contact@varand.me>",
   "license": "MIT",
