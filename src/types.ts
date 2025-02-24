@@ -34,6 +34,7 @@ export interface SessionConstructorOptions {
     headerPriority?: Record<string, number>;
     randomTlsExtensionOrder?: boolean;
     forceHttp1?: boolean;
+    ignoreResponseCookies?: boolean;
 }
 
 export interface RequestPayload {
