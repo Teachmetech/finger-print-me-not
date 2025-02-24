@@ -128,9 +128,11 @@ export class Session {
         }
 
         const responseCookieJar = new CookieJar();
-        if (responseObject.headers['Set-Cookie'] && Array.isArray(responseObject.headers['Set-Cookie'])) {
-            for (const cookie of responseObject.headers['Set-Cookie']) {
-                await responseCookieJar.setCookie(cookie, url);
+        if (!(this.sessionOptions.ignoreResponseCookies ?? false)) {
+            if (responseObject.headers['Set-Cookie'] && Array.isArray(responseObject.headers['Set-Cookie'])) {
+                for (const cookie of responseObject.headers['Set-Cookie']) {
+                    await responseCookieJar.setCookie(cookie, url);
+                }
             }
         }
 
