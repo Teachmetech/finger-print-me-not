@@ -1,6 +1,6 @@
 {
   "name": "fingerprint-me-not",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A powerful Node.js HTTP client with advanced TLS fingerprinting capabilities",
   "author": "Varand Abrahamian <contact@varand.me>",
   "license": "MIT",
@@ -35,7 +35,8 @@
     "example:fingerprint": "tsx examples/custom_fingerprint.ts",
     "example:errors": "tsx examples/error_handling.ts",
     "example:zalando": "tsx examples/zalando_example.ts",
-    "example:upwork": "tsx examples/upwork_example.ts"
+    "example:upwork": "tsx examples/upwork_example.ts",
+    "example:binary": "tsx examples/binary_content_example.ts"
   },
   "devDependencies": {
     "@swc/core": "^1.10.7",
