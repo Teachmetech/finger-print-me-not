@@ -8,6 +8,7 @@ export interface ExecuteRequestOptions {
     allowRedirects?: boolean;
     insecureSkipVerify?: boolean;
     timeoutSeconds?: number;
+    isBinaryRequest?: boolean; // Request binary content (auto-detects if not specified)
 }
 
 export interface Headers {

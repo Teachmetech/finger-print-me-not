@@ -25,6 +25,8 @@ TLS fingerprinting is a technique used by websites to detect and block automated
 - HTTP/2 support
 - Custom header ordering
 - Automatic JSON parsing
+- **Binary content support** (PDFs, images, videos, etc.)
+- **Automatic binary content detection**
 - TypeScript support
 
 ## Installation
@@ -61,6 +63,34 @@ const session = new FingerPrintMeNotClient.Session({
 const response1 = await session.get('https://example.com/login');
 const response2 = await session.get('https://example.com/profile');
 ```
+
+### Binary Content Handling
+
+The library now properly handles binary content like PDFs, images, videos, and other binary files:
+
+```typescript
+// Explicit binary request
+const pdfResponse = await FingerPrintMeNotClient.get('https://example.com/document.pdf', {
+    isBinaryRequest: true
+});
+
+// Check if content is binary
+if (pdfResponse.isBinaryContent()) {
+    // Save binary content
+    const fs = require('fs');
+    fs.writeFileSync('document.pdf', pdfResponse.getBuffer());
+} else {
+    // Handle as text
+    console.log(pdfResponse.getText());
+}
+
+// Auto-detection (recommended) - automatically detects binary content
+const imageResponse = await session.get('https://example.com/image.png');
+console.log(`Is binary: ${imageResponse.isBinaryContent()}`);
+console.log(`Content size: ${imageResponse.content.length} bytes`);
+```
+
+**Important**: Previous versions had a bug where binary content was truncated at the first null byte. This has been fixed in v0.0.5+.
 
 ### Custom TLS Fingerprint
 
@@ -164,6 +194,7 @@ interface ExecuteRequestOptions {
     allowRedirects?: boolean;
     insecureSkipVerify?: boolean;
     timeoutSeconds?: number;
+    isBinaryRequest?: boolean; // Request binary content (auto-detects if not specified)
 }
 ```
 
@@ -174,6 +205,7 @@ Check out the `examples` directory for more detailed examples:
 - Session management (`examples/session_example.ts`)
 - Custom fingerprinting (`examples/custom_fingerprint.ts`)
 - Error handling (`examples/error_handling.ts`)
+- **Binary content handling (`examples/binary_content_example.ts`)**
 - Zalando API (`examples/zalando_example.ts`)
 - Upwork API (`examples/upwork_example.ts`)
 
@@ -183,6 +215,7 @@ npm run example:basic
 npm run example:session
 npm run example:fingerprint
 npm run example:errors
+npm run example:binary
 npm run example:zalando
 npm run example:upwork
 ```

@@ -6,6 +6,16 @@ import { FingerPrintMeNotException } from './exceptions.js';
 import { Response } from './response.js';
 import { ExecuteRequestOptions, Headers, Params, RequestPayload, SessionConstructorOptions } from './types.js';
 
+// Helper function to determine if a URL likely returns binary content
+function isLikelyBinaryUrl(url: string): boolean {
+    const binaryExtensions = ['.pdf', '.zip', '.exe', '.dmg', '.pkg', '.deb', '.rpm', 
+                             '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp',
+                             '.mp4', '.avi', '.mov', '.mkv', '.mp3', '.wav', '.flac',
+                             '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx'];
+    const lowerUrl = url.toLowerCase();
+    return binaryExtensions.some(ext => lowerUrl.includes(ext));
+}
+
 const require = createRequire(import.meta.url);
 const { version } = require('../package.json');
 
@@ -70,6 +80,22 @@ export class Session {
             proxy = options.proxy;
         }
 
+        // Determine if this should be a binary request
+        let isBinaryRequest: boolean;
+        if (options?.isBinaryRequest !== undefined) {
+            // Explicitly specified by user
+            isBinaryRequest = options.isBinaryRequest;
+        } else {
+            // Auto-detect based on URL or Accept header
+            const acceptHeader = headers['Accept'] || headers['accept'] || '';
+            isBinaryRequest = isLikelyBinaryUrl(url) || 
+                             acceptHeader.includes('application/pdf') ||
+                             acceptHeader.includes('application/octet-stream') ||
+                             acceptHeader.includes('image/') ||
+                             acceptHeader.includes('video/') ||
+                             acceptHeader.includes('audio/');
+        }
+
         const requestPayload: RequestPayload = {
             sessionId: this.sessionId,
             followRedirects: options?.allowRedirects || false,
@@ -77,7 +103,7 @@ export class Session {
             headers,
             headerOrder: this.sessionOptions.headerOrder,
             insecureSkipVerify: options?.insecureSkipVerify || false,
-            isByteRequest: false,
+            isByteRequest: isBinaryRequest,
             proxyUrl: proxy,
             requestUrl: url,
             requestMethod: method.toUpperCase(),
@@ -122,7 +148,35 @@ export class Session {
             throw new FingerPrintMeNotException('No response received');
         }
 
-        const responseObject = JSON.parse(response);
+        // Parse JSON response with UTF-8 corruption protection
+        let responseObject: any;
+        try {
+            responseObject = JSON.parse(response);
+            
+            // If we have binary data (indicated by body_len), validate the base64
+            if (responseObject.body_len && typeof responseObject.body_len === 'number') {
+                const base64Body = responseObject.body || '';
+                
+                // Check for signs of UTF-8 corruption in base64 data
+                const validBase64Chars = /^[A-Za-z0-9+/]*={0,2}$/;
+                if (!validBase64Chars.test(base64Body.replace(/\s/g, ''))) {
+                    console.warn('Warning: Base64 data appears to be corrupted by UTF-8 processing.');
+                    console.warn('Original length:', base64Body.length);
+                    console.warn('Invalid chars found in base64:', base64Body.replace(/[A-Za-z0-9+/=\s]/g, ''));
+                    
+                    // Attempt to clean the base64 string
+                    const cleanedBase64 = base64Body.replace(/[^A-Za-z0-9+/=]/g, '');
+                    if (cleanedBase64 !== base64Body) {
+                        console.warn('Attempting to clean corrupted base64 data...');
+                        responseObject.body = cleanedBase64;
+                    }
+                }
+            }
+        } catch (parseError) {
+            console.error('JSON parsing failed. Response may be corrupted:', parseError);
+            console.error('Response preview:', response.substring(0, 200) + (response.length > 200 ? '...' : ''));
+            throw new FingerPrintMeNotException(`Failed to parse response from native library: ${parseError}`);
+        }
         if (responseObject.status === 0) {
             throw new FingerPrintMeNotException(responseObject.body);
         }
